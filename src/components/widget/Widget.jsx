@@ -10,7 +10,6 @@ const Widget = ({ type }) => {
 
   //temporary
   const amount = 100;
-  const diff = 20;
 
   switch (type) {
     case "user":
@@ -90,7 +89,6 @@ const Widget = ({ type }) => {
       <div className="right">
         <div className="percentage positive">
           <KeyboardArrowUpIcon />
-          {diff} %
         </div>
         {data.icon}
       </div>
