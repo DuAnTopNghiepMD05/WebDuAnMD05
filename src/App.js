@@ -35,7 +35,7 @@ function App() {
               <Route
                 index
                 element={
-                  <RequireAuth>
+                  <RequireAuth>   
                     <List />
                   </RequireAuth>
                 }
