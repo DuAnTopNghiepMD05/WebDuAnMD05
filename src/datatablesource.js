@@ -37,6 +37,35 @@ export const userColumns = [
     },
   },
 ];
+export const BillColumns = [
+  { field: "id", headerName: "ID", width: 70 },
+  {
+    field: "UID",
+    headerName: "User ID",
+    width: 230,
+  },
+  {
+    field: "hoten",
+    headerName: "Address",
+    width: 230,
+  },
+
+  {
+    field: "ngaydat",
+    headerName: "Date",
+    width: 100,
+  },
+  {
+    field: "phuongthuc",
+    headerName: "Status",
+    width: 160,
+  },
+  {
+    field: "tongtien",
+    headerName: "Total",
+    width: 160,
+  },
+];
 
 //temporary data
 export const userRows = [
