@@ -1,6 +1,8 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
+import ListBill from "./pages/list/ListBill";
+import ListStatus from "./pages/list/ListStatus";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -75,6 +77,24 @@ function App() {
                 element={<New inputs={productInputs} title="Add New Product" />}
               />
             </Route>
+            <Route
+              path="orders"
+              index
+              element={
+                <RequireAuth>
+                  <ListBill />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="delivery"
+              index
+              element={
+                <RequireAuth>
+                  <ListStatus />
+                </RequireAuth>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>
