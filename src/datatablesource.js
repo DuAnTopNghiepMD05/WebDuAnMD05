@@ -37,17 +37,39 @@ export const userColumns = [
     },
   },
 ];
-export const BillColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+export const SpColumns =[
   {
-    field: "UID",
-    headerName: "User ID",
-    width: 230,
+    field:"hinhanh",
+    headerName: "Hình ảnh",
+    width:"50"
   },
   {
+    field:"loaisp",
+    headerName:"Loại sản phẩm",
+    width:50
+  },
+  {
+    field:"mausac",
+    headerName:"Màu sắc",
+    width:50
+  },
+  {
+    field:"kichco",
+    headerName: "Kích cỡ",
+    width:50
+  }
+];
+export const BillColumns = [
+ 
+  {
     field: "hoten",
-    headerName: "Address",
-    width: 230,
+    headerName: "Họ tên",
+    width: 140,
+  },
+  {
+    field:"diachi",
+    headerName:"Địa chỉ",
+    width:140
   },
 
   {
@@ -56,9 +78,14 @@ export const BillColumns = [
     width: 100,
   },
   {
+    field:"sdt",
+    headerName:" Số điện thoại",
+    width:120
+  },
+  {
     field: "phuongthuc",
     headerName: "Status",
-    width: 160,
+    width: 220,
   },
   {
     field: "tongtien",
