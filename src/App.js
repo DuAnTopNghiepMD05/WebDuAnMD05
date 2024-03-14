@@ -10,6 +10,7 @@ import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import ListProduct from "./pages/list/ListProduct";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -60,7 +61,7 @@ function App() {
                 index
                 element={
                   <RequireAuth>
-                    <List />
+                    <ListProduct/>
                   </RequireAuth>
                 }
               />
