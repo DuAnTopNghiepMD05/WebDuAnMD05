@@ -55,8 +55,8 @@ const DatatableProduct = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
-        <Link to="/products" className="link">
+        Add New Product
+        <Link to="/products/new" className="link">
           Add New
         </Link>
       </div>

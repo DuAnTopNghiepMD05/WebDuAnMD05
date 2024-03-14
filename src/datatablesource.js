@@ -52,7 +52,7 @@ export const BillColumns = [
 
   {
     field: "ngaydat",
-    headerName: "Date",
+    headerName: "Ngày đặt",
     width: 100,
   },
   {
@@ -61,14 +61,34 @@ export const BillColumns = [
     width: 120,
   },
   {
-    field: "phuongthuc",
-    headerName: "Status",
-    width: 220,
+    field: "tongtien",
+    headerName: "Tổng tiền",
+    width: 160,
   },
   {
-    field: "tongtien",
-    headerName: "Total",
+    field: "phuongthuc",
+    headerName: "Phương thức thanh toán",
+    width: 220,
+    // renderCell: (params) => {
+    //   return <div className={`cellWithStatus ${params.row.status}`}></div>;
+    // },
+  },
+
+  {
+    field: "trangthai",
+    headerName: "Trạng thái",
     width: 160,
+    renderCell: (params) => {
+      return params.value === 1
+        ? "Đang xử lý"
+        : params.value === 2
+        ? "Đang giao hàng"
+        : params.value === 3
+        ? "Giao hàng thành công"
+        : params.value === 4
+        ? "Hủy Đơn hàng"
+        : "";
+    },
   },
 ];
 
