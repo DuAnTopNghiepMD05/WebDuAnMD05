@@ -38,7 +38,7 @@ export const userColumns = [
   },
 ];
 export const BillColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 90 },
   {
     field: "UID",
     headerName: "User ID",
