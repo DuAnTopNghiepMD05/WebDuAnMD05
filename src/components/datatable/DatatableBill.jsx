@@ -16,6 +16,7 @@ const DatatableBill = () => {
         const querySnapshot = await getDocs(collection(db, "HoaDon"));
         querySnapshot.forEach((doc) => {
           list.push({ id: doc.id, ...doc.data() });
+
           console.log(doc.id, " => ", doc.data());
         });
         setData(list);

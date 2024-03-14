@@ -157,23 +157,40 @@ export const userRows = [
 ];
 export const SpColumns = [
   {
+    field: "tensp",
+    headerName: "Tên sản phẩm",
+    width: 200,
+  },
+  {
     field: "hinhanh",
     headerName: "Hình ảnh",
-    width: "50",
+    width: 80,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={params.value} alt="Product" />
+        </div>
+      );
+    },
   },
   {
     field: "loaisp",
     headerName: "Loại sản phẩm",
-    width: 50,
+    width: 120,
   },
   {
     field: "mausac",
     headerName: "Màu sắc",
-    width: 50,
+    width: 100,
   },
   {
     field: "kichco",
     headerName: "Kích cỡ",
-    width: 50,
+    width: 100,
+  },
+  {
+    field: "soluong",
+    headerName: "Số lượng",
+    width: 100,
   },
 ];

@@ -1,12 +1,31 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
+import { SpColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../../firebase";
 
-const Datatable = () => {
-  const [data, setData] = useState(userRows);
+const DatatableProduct = () => {
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      let list = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "SanPham"));
+        querySnapshot.forEach((doc) => {
+          list.push({ ...doc.data() });
+          console.log(doc.id, " => ", doc.data());
+        });
+        setData(list);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(data);
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
@@ -37,14 +56,17 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Add New User
-        <Link to="/users/new" className="link">
+        <Link to="/products" className="link">
           Add New
         </Link>
       </div>
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={userColumns.concat(actionColumn)}
+        getRowId={(row) =>
+          row.id || row.tensp + row.type + row.kichco + row.loaisp + row.img
+        }
+        columns={SpColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
@@ -53,4 +75,4 @@ const Datatable = () => {
   );
 };
 
-export default Datatable;
+export default DatatableProduct;
