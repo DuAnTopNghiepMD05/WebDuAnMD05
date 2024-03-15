@@ -46,23 +46,51 @@ const DatatableBill = () => {
       field: "trangthai",
       headerName: "Trạng thái",
       width: 160,
-      renderCell: (params) => (
-        <select
-          value={params.value}
-          onChange={(event) =>
-            handleStatusChange(params.row.id, event.target.value)
-          }
-        >
-          <option value="1">Đang xử lý</option>
-          <option value="2">Đang giao hàng</option>
-          <option value="3">Giao hàng thành công</option>
-          <option value="4">Hủy Đơn hàng</option>
-        </select>
-      ),
+      renderCell: (params) => {
+        let bgColor;
+        let color;
+        switch (params.value) {
+          case 1:
+          case 2:
+            bgColor = "rgba(255, 217, 0, 0.05)";
+            color = "goldenrod";
+            break;
+          case 3:
+            bgColor = "rgba(0, 128, 0, 0.05)";
+            color = "green";
+            break;
+          case 4:
+            bgColor = "rgba(255, 0, 0, 0.05)";
+            color = "red";
+            break;
+          default:
+            bgColor = "white";
+        }
+
+        return (
+          <select
+            value={params.value}
+            onChange={(event) =>
+              handleStatusChange(params.row.id, event.target.value)
+            }
+            style={{
+              backgroundColor: bgColor,
+              color: color,
+              fontWeight: "bold",
+            }}
+          >
+            <option value="1">Đang xử lý</option>
+            <option value="2">Đang giao hàng</option>
+            <option value="3">Giao hàng thành công</option>
+            <option value="4">Hủy Đơn hàng</option>
+          </select>
+        );
+      },
     },
   ];
   const handleStatusChange = async (id, newStatus) => {
     // Find the row with the given id
+    newStatus = parseInt(newStatus);
     const row = data.find((row) => row.id === id);
 
     if (row) {
