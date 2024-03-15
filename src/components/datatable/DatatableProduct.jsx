@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 
 const DatatableProduct = () => {
   const [data, setData] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       let list = [];
@@ -44,8 +43,11 @@ const DatatableProduct = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/products" style={{ textDecoration: "none" }}>
-              <div className="viewButton">Sửa</div>
+            <Link
+              to={`/products/${params.row.sid}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="viewButton">Update</div>
             </Link>
             <div
               className="deleteButton"

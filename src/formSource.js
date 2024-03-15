@@ -78,4 +78,12 @@ export const productInputs = [
     label: "Màu sắc",
     type: "text",
   },
+  {
+    id: "type",
+    label: "Định dạng",
+    placeholder: "Min 1, Max 4",
+    min: 1,
+    max: 4,
+    type: "number",
+  },
 ];

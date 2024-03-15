@@ -1,7 +1,6 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { BillColumns } from "../../datatablesource";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -27,7 +26,7 @@ const DatatableBill = () => {
     fetchData();
   }, []);
   console.log(data);
-  const handleUpdate = (id) => {};
+
   return (
     <div className="datatable">
       <DataGrid

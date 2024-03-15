@@ -11,7 +11,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
-const New = ({ inputs, title }) => {
+const NewCategory = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState("");
 
@@ -76,4 +76,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default NewCategory;
