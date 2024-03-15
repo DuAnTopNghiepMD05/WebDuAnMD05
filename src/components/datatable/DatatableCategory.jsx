@@ -1,12 +1,32 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
+import { categoriesRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
-const Datatable = () => {
-  const [data, setData] = useState(userRows);
+const DatatableCategory = () => {
+  const [data, setData] = useState("");
 
+  useEffect(() => {
+    const fetchData = async () => {
+      let list = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "LoaiSP"));
+        querySnapshot.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
+
+          console.log(doc.id, " => ", doc.data());
+        });
+        setData(list);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(data);
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
@@ -36,7 +56,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
+        Categories
         <Link to="/users/new" className="link">
           Add New
         </Link>
@@ -44,7 +64,7 @@ const Datatable = () => {
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={userColumns.concat(actionColumn)}
+        columns={categoriesRows.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
@@ -53,4 +73,4 @@ const Datatable = () => {
   );
 };
 
-export default Datatable;
+export default DatatableCategory;

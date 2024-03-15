@@ -73,7 +73,6 @@ export const BillColumns = [
     //   return <div className={`cellWithStatus ${params.row.status}`}></div>;
     // },
   },
-
   {
     field: "trangthai",
     headerName: "Trạng thái",
@@ -90,7 +89,18 @@ export const BillColumns = [
     },
   },
 ];
-
+export const categoriesRows = [
+  {
+    field: "id",
+    headerName: "Id",
+    width: 200,
+  },
+  {
+    field: "tenloai",
+    headerName: "Loại sản phẩm",
+    width: 160,
+  },
+];
 //temporary data
 export const userRows = [
   {

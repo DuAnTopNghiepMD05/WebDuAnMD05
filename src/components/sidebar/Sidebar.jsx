@@ -1,7 +1,7 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import CategoryIcon from "@mui/icons-material/Category";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 
@@ -48,17 +48,17 @@ const Sidebar = () => {
               <span>Orders</span>
             </li>
           </Link>
-          <Link to="/delivery" style={{ textDecoration: "none" }}>
+          <Link to="/categories" style={{ textDecoration: "none" }}>
             <li>
-              <LocalShippingIcon className="icon" />
-              <span>Delivery</span>
+              <CategoryIcon className="icon" />
+              <span>Categories</span>
             </li>
           </Link>
-          <p className="title">USER</p>
+          {/* <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
-          </li>
+          </li> */}
           <li>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
