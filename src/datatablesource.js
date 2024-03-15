@@ -77,17 +77,16 @@ export const BillColumns = [
   {
     field: "trangthai",
     headerName: "Trạng thái",
-    width: 160,
+    width: 180,
     renderCell: (params) => {
-      return params.value === 1
-        ? "Đang xử lý"
-        : params.value === 2
-        ? "Đang giao hàng"
-        : params.value === 3
-        ? "Giao hàng thành công"
-        : params.value === 4
-        ? "Hủy Đơn hàng"
-        : "";
+      return (
+        <select value={params.value}>
+          <option value="1">Đang xử lý</option>
+          <option value="2">Đang giao hàng</option>
+          <option value="3">Giao hàng thành công</option>
+          <option value="4">Hủy Đơn hàng</option>
+        </select>
+      );
     },
   },
 ];

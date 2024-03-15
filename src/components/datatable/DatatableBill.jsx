@@ -1,13 +1,86 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { BillColumns } from "../../datatablesource";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const DatatableBill = () => {
   const [data, setData] = useState([]);
+  const BillColumnss = [
+    {
+      field: "hoten",
+      headerName: "Họ tên",
+      width: 140,
+    },
+    {
+      field: "diachi",
+      headerName: "Địa chỉ",
+      width: 140,
+    },
 
+    {
+      field: "ngaydat",
+      headerName: "Ngày đặt",
+      width: 100,
+    },
+    {
+      field: "sdt",
+      headerName: " Số điện thoại",
+      width: 120,
+    },
+    {
+      field: "tongtien",
+      headerName: "Tổng tiền",
+      width: 160,
+    },
+    {
+      field: "phuongthuc",
+      headerName: "Phương thức thanh toán",
+      width: 220,
+      // renderCell: (params) => {
+      //   return <div className={`cellWithStatus ${params.row.status}`}></div>;
+      // },
+    },
+
+    {
+      field: "trangthai",
+      headerName: "Trạng thái",
+      width: 160,
+      renderCell: (params) => (
+        <select
+          value={params.value}
+          onChange={(event) =>
+            handleStatusChange(params.row.id, event.target.value)
+          }
+        >
+          <option value="1">Đang xử lý</option>
+          <option value="2">Đang giao hàng</option>
+          <option value="3">Giao hàng thành công</option>
+          <option value="4">Hủy Đơn hàng</option>
+        </select>
+      ),
+    },
+  ];
+  const handleStatusChange = async (id, newStatus) => {
+    // Find the row with the given id
+    const row = data.find((row) => row.id === id);
+
+    if (row) {
+      // Update the status of the row
+      row.trangthai = newStatus;
+
+      // Update the state
+      setData([...data]);
+
+      // Update the document in Firestore
+      await updateDoc(doc(db, "HoaDon", id), {
+        trangthai: newStatus,
+      });
+    } else {
+      // Log a message indicating that no row was found with the given id
+      console.log(`No row found with id: ${id}`);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       let list = [];
@@ -32,7 +105,7 @@ const DatatableBill = () => {
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={BillColumns}
+        columns={BillColumnss}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
