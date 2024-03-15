@@ -7,10 +7,12 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState("");
   const [percent, setPercent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const uploadFile = async () => {
@@ -64,6 +66,7 @@ const New = ({ inputs, title }) => {
         idsp: null,
         type: 1,
       });
+      navigate("/products");
     } catch (err) {
       console.log(err);
     }

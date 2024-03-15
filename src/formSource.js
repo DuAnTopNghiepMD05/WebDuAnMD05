@@ -61,12 +61,12 @@ export const productInputs = [
   {
     id: "giatien",
     label: "Giá",
-    type: "text",
+    type: "number",
   },
   {
     id: "soluong",
     label: "Số lượng",
-    type: "text",
+    type: "number",
   },
   {
     id: "kichco",

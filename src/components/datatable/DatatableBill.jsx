@@ -27,29 +27,13 @@ const DatatableBill = () => {
     fetchData();
   }, []);
   console.log(data);
-
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <Link to="/orders" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
-            </Link>
-          </div>
-        );
-      },
-    },
-  ];
+  const handleUpdate = (id) => {};
   return (
     <div className="datatable">
       <DataGrid
         className="datagrid"
         rows={data}
-        columns={BillColumns.concat(actionColumn)}
+        columns={BillColumns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection

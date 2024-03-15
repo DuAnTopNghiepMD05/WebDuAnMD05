@@ -2,9 +2,10 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { SpColumns } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { db } from "../../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 const DatatableProduct = () => {
   const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ const DatatableProduct = () => {
       try {
         const querySnapshot = await getDocs(collection(db, "SanPham"));
         querySnapshot.forEach((doc) => {
-          list.push({ ...doc.data() });
+          list.push({ sid: doc.id, ...doc.data() });
           console.log(doc.id, " => ", doc.data());
         });
         setData(list);
@@ -25,9 +26,14 @@ const DatatableProduct = () => {
     };
     fetchData();
   }, []);
-  console.log(data);
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  // console.log(data);
+  const handleDelete = async (sid) => {
+    try {
+      await deleteDoc(doc(db, "SanPham", sid));
+      setData(data.filter((item) => item.sid !== sid));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const actionColumn = [
@@ -38,12 +44,15 @@ const DatatableProduct = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
+            <Link to="/products" style={{ textDecoration: "none" }}>
+              <div className="viewButton">Sửa</div>
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                console.log(params.row);
+                handleDelete(params.row.sid);
+              }}
             >
               Delete
             </div>
