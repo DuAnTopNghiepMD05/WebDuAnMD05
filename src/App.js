@@ -6,12 +6,13 @@ import ListCategory from "./pages/list/ListCategory";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { productInputs } from "./formSource";
+import { categoryInputs, productInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import ListProduct from "./pages/list/ListProduct";
 import UpdateProduct from "./pages/new/EditProduct";
+import NewCategory from "./pages/new/NewCategory";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -97,6 +98,12 @@ function App() {
                 <RequireAuth>
                   <ListCategory />
                 </RequireAuth>
+              }
+            />
+            <Route
+              path="newCat"
+              element={
+                <NewCategory inputs={categoryInputs} title="Add New Category" />
               }
             />
           </Route>

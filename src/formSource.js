@@ -85,3 +85,10 @@ export const productInputs = [
     type: "number",
   },
 ];
+export const categoryInputs = [
+  {
+    id: "tenLoai",
+    label: "Tên loại sản phẩm",
+    type: "text",
+  },
+];

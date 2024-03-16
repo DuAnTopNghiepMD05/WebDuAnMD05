@@ -57,7 +57,7 @@ const DatatableCategory = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Categories
-        <Link to="/users/new" className="link">
+        <Link to="/newCat" className="link">
           Add New
         </Link>
       </div>
