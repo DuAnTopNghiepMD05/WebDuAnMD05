@@ -13,6 +13,7 @@ import { DarkModeContext } from "./context/darkModeContext";
 import ListProduct from "./pages/list/ListProduct";
 import UpdateProduct from "./pages/new/EditProduct";
 import NewCategory from "./pages/new/NewCategory";
+import EditCategory from "./pages/new/EditCategory";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -104,6 +105,14 @@ function App() {
               path="newCat"
               element={
                 <NewCategory inputs={categoryInputs} title="Add New Category" />
+              }
+            />
+            <Route
+              path="/categories/:categoryId"
+              element={
+                <RequireAuth>
+                  <EditCategory inputs={categoryInputs} title="Edit Category" />
+                </RequireAuth>
               }
             />
           </Route>

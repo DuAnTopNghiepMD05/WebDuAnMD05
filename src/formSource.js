@@ -87,7 +87,7 @@ export const productInputs = [
 ];
 export const categoryInputs = [
   {
-    id: "tenLoai",
+    id: "tenloai", //key khi map qua từng input
     label: "Tên loại sản phẩm",
     type: "text",
   },

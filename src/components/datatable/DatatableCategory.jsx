@@ -50,7 +50,10 @@ const DatatableCategory = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
+            <Link
+              to={`/categories/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
               <div className="viewButton">Update</div>
             </Link>
             <div
