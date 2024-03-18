@@ -65,6 +65,7 @@ const UpdateProduct = ({ inputs, title }) => {
         <Navbar />
         <div className="top">
           <h1>{title}</h1>
+          <div className="button"></div>
         </div>
         <div className="bottom">
           <div className="left">
