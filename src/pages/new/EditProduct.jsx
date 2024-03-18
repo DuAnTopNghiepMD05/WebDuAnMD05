@@ -28,9 +28,17 @@ const UpdateProduct = ({ inputs, title }) => {
     getProductById();
   }, []);
   const handleInput = (event) => {
+    let value = event.target.value;
+    if (
+      event.target.name === "soluong" ||
+      event.target.name === "giatien" ||
+      event.target.name === "type"
+    ) {
+      value = parseInt(value);
+    }
     setUpdatedData({
       ...updatedData, // Giữ lại tất cả các giá trị cũ
-      [event.target.name]: event.target.value, // Lưu giá trị mới của input vào state
+      [event.target.name]: value, // Lưu giá trị mới của input vào state
     });
   };
   console.log(updatedData);
@@ -39,6 +47,9 @@ const UpdateProduct = ({ inputs, title }) => {
     try {
       const docRef = doc(db, "SanPham", productId);
       await updateDoc(docRef, {
+        soluong: parseInt(updatedData.soluong),
+        giatien: parseInt(updatedData.giatien),
+        type: parseInt(updatedData.type),
         ...updatedData, // Lưu lại tất cả các giá trị mới
       });
       navigate("/products");

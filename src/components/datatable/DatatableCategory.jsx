@@ -3,7 +3,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import { categoriesRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 const DatatableCategory = () => {
@@ -27,8 +33,13 @@ const DatatableCategory = () => {
     fetchData();
   }, []);
   console.log(data);
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "LoaiSP", id));
+      setData(data.filter((item) => item.id !== id));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const actionColumn = [
@@ -39,8 +50,11 @@ const DatatableCategory = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
+            <Link
+              to={`/categories/${params.row.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="viewButton">Update</div>
             </Link>
             <div
               className="deleteButton"
@@ -57,7 +71,7 @@ const DatatableCategory = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Categories
-        <Link to="/users/new" className="link">
+        <Link to="/newCat" className="link">
           Add New
         </Link>
       </div>
