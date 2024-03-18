@@ -18,6 +18,7 @@ const DatatableProduct = () => {
           list.push({ sid: doc.id, ...doc.data() });
           console.log(doc.id, " => ", doc.data());
         });
+       
         setData(list);
       } catch (e) {
         console.log(e);

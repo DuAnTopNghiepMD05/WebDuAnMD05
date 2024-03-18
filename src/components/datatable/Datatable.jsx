@@ -1,14 +1,40 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../datatablesource";
+import { db } from "../../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Datatable = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  useEffect(() => {
+    const fetchData = async () => {
+      let list = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, "thongtinUser"));
+        querySnapshot.forEach((doc) => {
+          list.push({ sid: doc.id, ...doc.data() });
+          console.log(doc.id, " => ", doc.data());
+        });
+
+        setData(list);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleDelete = async (sid) => {
+    try {
+      await deleteDoc(doc(db, "thongtinUser", sid));
+      setData(data.filter((item) => item.sid !== sid));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const actionColumn = [
@@ -19,12 +45,18 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
+            <Link
+              to={`/users/${params.row.sid}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="viewButton">Update</div>
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => {
+                console.log(params.row);
+                handleDelete(params.row.sid);
+              }}
             >
               Delete
             </div>
@@ -33,6 +65,7 @@ const Datatable = () => {
       },
     },
   ];
+
   return (
     <div className="datatable">
       <DataGrid
@@ -42,7 +75,9 @@ const Datatable = () => {
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
+        getRowId={(row) => row.sid} // Sử dụng sid làm id cho mỗi hàng
       />
+
     </div>
   );
 };

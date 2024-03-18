@@ -3,15 +3,17 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import ListBill from "./pages/list/ListBill";
 import ListCategory from "./pages/list/ListCategory";
-import Single from "./pages/single/Single";
+
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs } from "./formSource";
+import { userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import ListProduct from "./pages/list/ListProduct";
 import UpdateProduct from "./pages/new/EditProduct";
+import UpdateUser from "./pages/single/EditUser";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -44,10 +46,13 @@ function App() {
                 }
               />
               <Route
-                path=":userId"
+                path="/users/:userId"
                 element={
                   <RequireAuth>
-                    <Single />
+                    <UpdateUser
+                      inputs={userInputs}
+                      title="Chỉnh sửa User"
+                    />
                   </RequireAuth>
                 }
               />
