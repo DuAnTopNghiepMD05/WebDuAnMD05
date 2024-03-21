@@ -15,32 +15,49 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const EditUser = ({ inputs, title }) => {
   const [updatedData, setUpdatedData] = useState({});
-  const [imageUrl, setImageUrl] = useState('');
-  const { userId } = useParams();
+  const { userId, profileId } = useParams();
   const navigate = useNavigate();
   const [editableField, setEditableField] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
-    if (userId) {
+    if (userId && profileId) {
+      console.log(`User ${userId}, Profile ${profileId} is being accessed`);
 
-      const getUserById = async () => {
+      const getUserProfileById = async () => {
         try {
-          const docRef = doc(db, "thongtinUser", userId);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            setUpdatedData(userData);
+          // Lấy thông tin người dùng
+          const userDocRef = doc(db, "thongtinUser", userId);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            console.log("Thông tin người dùng:", userData);
+
+            // Lấy thông tin profile cụ thể dựa vào profileId
+            const profileDocRef = doc(db, "thongtinUser", userId, "Profile", profileId);
+            const profileDocSnap = await getDoc(profileDocRef);
+
+            if (profileDocSnap.exists()) {
+              const profileData = profileDocSnap.data();
+              setUpdatedData({ ...userData, ...profileData });
+
+
+            } else {
+              console.log("Không tìm thấy profile với Profile ID đã cho.");
+            }
           } else {
-            console.log("Không tìm thấy người dùng với ID đã cho.");
+            console.log("Không tìm thấy người dùng với User ID đã cho.");
           }
         } catch (error) {
-          console.log("Lỗi khi lấy dữ liệu người dùng:", error);
+          console.log("Lỗi khi lấy dữ liệu:", error);
         }
       };
-      getUserById();
+      getUserProfileById();
     }
-  }, [userId]);
+  }, [userId, profileId]); // Thêm profileId vào danh sách dependencies
+
+
 
   const uploadImage = async (file) => {
     setIsUploading(true); // Start upload
@@ -58,13 +75,13 @@ const EditUser = ({ inputs, title }) => {
 
       setUpdatedData(prev => ({
         ...prev,
-        img: response.data.data.url, // Update the image URL in the state
+        avatar: response.data.data.url, // Update the image URL in the state
       }));
       setIsUploading(false); // End upload
     } catch (error) {
       console.error("Error uploading image:", error);
       setIsUploading(false); // End upload on error too
-      window.alert("Lỗi upload ảnh hãy thử lại sau!"); 
+      window.alert("Lỗi upload ảnh hãy thử lại sau!");
     }
   };
 
@@ -79,21 +96,26 @@ const EditUser = ({ inputs, title }) => {
     const { name, value, type } = event.target;
     const updatedValue = type === 'number' ? Number(value) : value;
 
-    setUpdatedData(prevState => ({
-      ...prevState,
-      [name]: updatedValue,
-    }));
+    if (name === 'ngaysinh') {
+      const formattedValue = value.split('-').reverse().join('/'); // Chuyển đổi định dạng
+      setUpdatedData(prev => ({ ...prev, [name]: formattedValue }));
+    } else {
+
+      setUpdatedData(prev => ({ ...prev, [name]: value }));
+    }
     console.log("updatedData: " + String(updatedValue));
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const docRef = doc(db, "thongtinUser", userId);
+      const docRef = doc(db, "thongtinUser", userId, "Profile", profileId);
+
       await updateDoc(docRef, {
         ...updatedData,
       });
       navigate("/users");
+      console.log(" updating data: ", updatedData);
     } catch (error) {
       console.log("Lỗi khi cập nhật dữ liệu người dùng:", error);
     }
@@ -112,15 +134,65 @@ const EditUser = ({ inputs, title }) => {
             <h1 className="title">Thông tin</h1>
             <form className="form" onSubmit={handleUpdate}>
               <div className="item">
-                <img src={updatedData.img || 'path/to/default/image.jpg'} alt="Avatar" className="itemImg" />
+                <img src={updatedData.avatar || 'path/to/default/image.jpg'} alt="Avatar" className="itemImg" />
                 <div className="formInput" style={{ position: "absolute", marginTop: "110px", marginLeft: "35px" }}>
                   <label htmlFor="file">
-                    <DriveFolderUploadOutlinedIcon className="icon" style={{color:"red"}} />
+                    <DriveFolderUploadOutlinedIcon className="icon" style={{ color: "red" }} />
                   </label>
                   <input type="file" id="file" name="img" onChange={handleImageChange} style={{ display: "none" }} />
                 </div>
                 <div className="details">
-                  <h1 className="itemTitle">{updatedData?.fullname}</h1>
+                  <h1 className="itemTitle">{updatedData?.hoten}</h1>
+                  <div class="custom-radios">
+                    <div>
+                      <input
+                        type="radio"
+                        id="color-1"
+                        name="status"
+                        value="active"
+                        checked={updatedData.status === "active"}
+                        onChange={handleInput}
+                      />
+                      <label for="color-1">
+                        <span>
+                          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                        </span>
+                      </label>
+                    </div>
+
+                    <div>
+                     
+                      <input
+                        type="radio"
+                        id="color-3"
+                        name="status"
+                        value="pending"
+                        checked={updatedData.status === "pending"}
+                        onChange={handleInput}
+                      />
+                      <label for="color-3">
+                        <span>
+                          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                        </span>
+                      </label>
+                    </div>
+
+                    <div>
+                    <input
+                        type="radio"
+                        id="color-4"
+                        name="status"
+                        value="passive"
+                        checked={updatedData.status === "passive"}
+                        onChange={handleInput}
+                      />
+                      <label for="color-4">
+                        <span>
+                          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/242518/check-icn.svg" alt="Checked Icon" />
+                        </span>
+                      </label>
+                    </div>
+                  </div>
                   <div className="detailItem">
                     <span className="itemKey">Email:</span>
                     {editableField === 'email' ? (
@@ -138,63 +210,89 @@ const EditUser = ({ inputs, title }) => {
                       </div>
                     )}
                   </div>
+                  <div className="detailItem">
+                    <span className="itemKey">Giới tính:</span>
+                    {editableField === 'gioitinh' ? (
+                      <select
+                        value={updatedData.gioitinh || ''}
+                        name="gioitinh"
+                        onChange={handleInput}
+                        onBlur={() => setEditableField(null)} // To stop editing when the input loses focus
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="chưa có thông tin!">Other</option>
+                      </select>
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span className="itemValue">{updatedData.gioitinh}</span>
+                        <EditIcon onClick={() => setEditableField('gioitinh')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
+                      </div>
+                    )}
+                  </div>
+
 
                   <div className="detailItem">
                     <span className="itemKey">Phone:</span>
-                    {editableField === 'phone' ? (
+                    {editableField === 'sdt' ? (
                       <input
-                        type="phone"
-                        value={updatedData?.phone || ''}
-                        name="phone"
+                        type="sdt"
+                        value={updatedData?.sdt || ''}
+                        name="sdt"
                         onChange={handleInput}
                         onBlur={() => setEditableField(null)} // To stop editing when the input loses focus
                       />
                     ) : (
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span className="itemValue">{updatedData?.phone}</span>
-                        <EditIcon onClick={() => setEditableField('phone')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
+                        <span className="itemValue">{updatedData?.sdt}</span>
+                        <EditIcon onClick={() => setEditableField('sdt')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
                       </div>
                     )}
                   </div>
+                  <div className="detailItem">
+                    <span className="itemKey">Ngày sinh:</span>
+                    {editableField === 'ngaysinh' ? (
+                      <input
+                        type="date" // Thay đổi ở đây từ "ngaysinh" thành "date"
+                        value={updatedData?.ngaysinh.split('/').reverse().join('-') || ''}
+                        name="ngaysinh"
+                        onChange={handleInput}
+                        onBlur={() => setEditableField(null)} // Dừng chỉnh sửa khi input mất focus
+                      />
+                    ) : (
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span className="itemValue">{updatedData?.ngaysinh}</span>
+                        <EditIcon onClick={() => setEditableField('ngaysinh')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
+                      </div>
+                    )}
+                  </div>
+
                   <div className="detailItem">
                     <span className="itemKey">Address:</span>
-                    {editableField === 'address' ? (
+                    {editableField === 'diachi' ? (
                       <input
-                        type="address"
-                        value={updatedData?.address || ''}
-                        name="address"
+                        type="diachi"
+                        value={updatedData?.diachi || ''}
+                        name="diachi"
                         onChange={handleInput}
                         onBlur={() => setEditableField(null)} // To stop editing when the input loses focus
                       />
                     ) : (
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span className="itemValue">{updatedData?.address}</span>
-                        <EditIcon onClick={() => setEditableField('address')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
+                        <span className="itemValue">{updatedData?.diachi}</span>
+                        <EditIcon onClick={() => setEditableField('diachi')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
                       </div>
                     )}
                   </div>
-                  <div className="detailItem">
-                    <span className="itemKey">Country:</span>
-                    {editableField === 'country' ? (
-                      <input
-                        type="country"
-                        value={updatedData?.country || ''}
-                        name="country"
-                        onChange={handleInput}
-                        onBlur={() => setEditableField(null)} // To stop editing when the input loses focus
-                      />
-                    ) : (
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <span className="itemValue">{updatedData?.country}</span>
-                        <EditIcon onClick={() => setEditableField('country')} style={{ marginLeft: '10px', cursor: 'pointer', fontSize: "20px", color: "red" }} />
-                      </div>
-                    )}
-                  </div>
+
                 </div>
               </div>
-              <button type="submit" className="button-update" disabled={isUploading || !updatedData.img}>
+
+              <button type="submit" onClick={handleUpdate} className="button-update" disabled={isUploading || !updatedData.avatar}>
                 {isUploading ? "Loading..." : "Update"}
               </button>
+
+
 
 
             </form>

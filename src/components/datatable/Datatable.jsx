@@ -15,18 +15,27 @@ const Datatable = () => {
       let list = [];
       try {
         const querySnapshot = await getDocs(collection(db, "thongtinUser"));
-        querySnapshot.forEach((doc) => {
-          list.push({ sid: doc.id, ...doc.data() });
-          console.log(doc.id, " => ", doc.data());
-        });
-
-        setData(list);
+        const profileFetchPromises = querySnapshot.docs.map(doc =>
+          getDocs(collection(db, "thongtinUser", doc.id, "Profile")).then(profileSnapshot =>
+            profileSnapshot.docs.map(profileDoc => ({
+              sid: `/thongtinUser/${doc.id}/Profile/${profileDoc.id}`,
+              ...profileDoc.data(),
+            }))
+          )
+        );
+  
+        // Wait for all profile fetches to complete
+        const profileResults = await Promise.all(profileFetchPromises);
+        // Flatten the array of arrays and set the data
+        setData(profileResults.flat());
       } catch (e) {
         console.log(e);
       }
     };
     fetchData();
   }, []);
+  
+  
 
   const handleDelete = async (sid) => {
     try {
@@ -46,7 +55,7 @@ const Datatable = () => {
         return (
           <div className="cellAction">
             <Link
-              to={`/users/${params.row.sid}`}
+              to={`/users${params.row.sid}`}
               style={{ textDecoration: "none" }}
             >
               <div className="viewButton">Update</div>
