@@ -288,7 +288,7 @@ const EditUser = ({ inputs, title }) => {
                 </div>
               </div>
 
-              <button type="submit" onClick={handleUpdate} className="button-update" disabled={isUploading || !updatedData.avatar}>
+              <button type="submit" onClick={handleUpdate} className="button-update" disabled={isUploading || !updatedData.avatar&&""}>
                 {isUploading ? "Loading..." : "Update"}
               </button>
 
