@@ -6,7 +6,6 @@ import ListCategory from "./pages/list/ListCategory";
 
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { productInputs } from "./formSource";
 import { userInputs } from "./formSource";
 import { categoryInputs, productInputs } from "./formSource";
 import "./style/dark.scss";
@@ -49,16 +48,14 @@ function App() {
                 }
               />
               <Route
-                path="/users/:userId"
+                path="/users/thongtinUser/:userId/Profile/:profileId"
                 element={
                   <RequireAuth>
-                    <UpdateUser
-                      inputs={userInputs}
-                      title="Chỉnh sửa User"
-                    />
+                    <UpdateUser inputs={userInputs} title="Chỉnh sửa User" />
                   </RequireAuth>
                 }
               />
+
               {/* <Route
                 path="new"
                 element={<New inputs={userInputs} title="Add New User" />}
