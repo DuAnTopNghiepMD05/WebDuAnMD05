@@ -53,16 +53,19 @@ const New = ({ inputs, title }) => {
 
   const handleInput = (e) => {
     const id = e.target.id;
-    const value = e.target.value;
+    let value = e.target.value;
+    if (id === "soluong" || id === "giatien" || id === "type") {
+      value = parseInt(value);
+    }
     setData({ ...data, [id]: value });
   };
-  console.log(data);
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
       const docRef = doc(collection(db, "SanPham")); // Creates a new document reference
       await setDoc(docRef, {
         ...data,
+
         id: null,
         idsp: null,
       });
