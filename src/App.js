@@ -17,7 +17,7 @@ import EditCategory from "./pages/new/EditCategory";
 import { AuthContext } from "./context/AuthContext";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-  const test;
+  const tsss;
   const { currentUser } = useContext(AuthContext);
 
   const RequireAuth = ({ children }) => {
