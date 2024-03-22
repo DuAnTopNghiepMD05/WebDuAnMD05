@@ -73,17 +73,11 @@ function App() {
                 path="/products/:productId"
                 element={
                   <RequireAuth>
-                    <UpdateProduct
-                      inputs={productInputs}
-                      title="Edit Product"
-                    />
+                    <UpdateProduct title="Edit Product" />
                   </RequireAuth>
                 }
               />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
+              <Route path="new" element={<New title="Add New Product" />} />
             </Route>
             <Route
               path="orders"
