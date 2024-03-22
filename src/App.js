@@ -16,10 +16,11 @@ import UpdateProduct from "./pages/new/EditProduct";
 import UpdateUser from "./pages/single/EditUser";
 import NewCategory from "./pages/new/NewCategory";
 import EditCategory from "./pages/new/EditCategory";
+import { AuthContext } from "./context/AuthContext";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
-  const currentUser = true;
+  const { currentUser } = useContext(AuthContext);
 
   const RequireAuth = ({ children }) => {
     return currentUser ? children : <Navigate to="/login" />;
