@@ -53,7 +53,10 @@ const New = ({ inputs, title }) => {
 
   const handleInput = (e) => {
     const id = e.target.id;
-    const value = e.target.value;
+    let value = e.target.value;
+    if (id === "soluong" || id === "giatien" || id === "type") {
+      value = parseInt(value);
+    }
     setData({ ...data, [id]: value });
   };
   console.log(data);
