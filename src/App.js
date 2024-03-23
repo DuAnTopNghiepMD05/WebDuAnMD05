@@ -3,11 +3,9 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import ListBill from "./pages/list/ListBill";
 import ListCategory from "./pages/list/ListCategory";
-
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { userInputs } from "./formSource";
-import { categoryInputs, productInputs } from "./formSource";
+import { categoryInputs, productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -25,6 +23,7 @@ function App() {
   const RequireAuth = ({ children }) => {
     return currentUser ? children : <Navigate to="/login" />;
   };
+  console.log(currentUser);
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
@@ -56,7 +55,6 @@ function App() {
                   </RequireAuth>
                 }
               />
-
               {/* <Route
                 path="new"
                 element={<New inputs={userInputs} title="Add New User" />}
@@ -75,17 +73,11 @@ function App() {
                 path="/products/:productId"
                 element={
                   <RequireAuth>
-                    <UpdateProduct
-                      inputs={productInputs}
-                      title="Edit Product"
-                    />
+                    <UpdateProduct title="Edit Product" />
                   </RequireAuth>
                 }
               />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
+              <Route path="new" element={<New title="Add New Product" />} />
             </Route>
             <Route
               path="orders"

@@ -56,7 +56,7 @@ export const productInputs = [
   {
     id: "loaisp",
     label: "Loại sản phẩm",
-    type: "text",
+    type: "select",
   },
   {
     id: "giatien",
