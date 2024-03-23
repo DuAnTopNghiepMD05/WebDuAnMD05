@@ -56,7 +56,8 @@
               }
 
               .itemValue {
-                font-weight: 300;
+                font-weight: bold;
+                font-size: 20px;
               }
             }
           }
@@ -81,4 +82,96 @@
       margin-bottom: 20px;
     }
   }
+  /* Button Basic Style */
+.button-update {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff; /* Primary color */
+  color: white; /* Text color */
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  outline: none;
+  transition: all 0.3s ease;
+
+  /* Box Shadow for 3D effect */
+  box-shadow: 0 5px #0056b3; /* Darker shade of the button color for the shadow */
+}
+
+/* Button Hover Effect */
+.button-update:hover {
+  background-color: #0056b3; /* A slightly darker shade for hover state */
+}
+
+/* Button Active/Click Effect */
+.button-update:active {
+  box-shadow: 0 2px #0056b3; /* Reduce shadow size to give a click effect */
+  transform: translateY(3px); /* Slightly move the button down */
+}
+
+/* Button Focus Effect */
+.button-update:focus {
+  outline: none; /* Remove the outline to keep the design clean */
+  border: 1px solid #fff; /* Optional: add a subtle border if needed */
+}
+
+// Colors
+$color-1: #2ecc71;
+$color-3: #f1c40f;
+$color-4: #e74c3c;
+
+
+
+.custom-radios {
+  
+  div {
+    display: inline-block;
+  }
+
+  input[type="radio"] {
+    display: none;
+
+    + label {
+      color: #333;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+
+      span {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        margin: -1px 4px 0 0;
+        vertical-align: middle;
+        cursor: pointer;
+        border-radius: 50%;
+        border: 2px solid #FFFFFF;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+        line-height: 44px;
+    
+        img {
+          opacity: 0;
+          transition: all .3s ease;
+        }
+      }
+    }
+
+    &#color-1 + label span {
+      background-color: $color-1;
+    }
+    &#color-3 + label span {
+      background-color: $color-3;
+    }
+
+    &#color-4 + label span {
+      background-color: $color-4;
+    }
+
+    &:checked + label span img {
+      opacity: 1;
+    }
+  }
+}
 }

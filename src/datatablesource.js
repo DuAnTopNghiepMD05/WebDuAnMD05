@@ -1,18 +1,25 @@
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "uid", headerName: "ID", width: 200 },
   {
     field: "user",
     headerName: "User",
-    width: 230,
+    width: 100,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
-          <img className="cellImg" src={params.row.img} alt="avatar" />
-          {params.row.username}
+          
+          <img className="cellImg" src={params.row.avatar} alt="avatar" />
+         
         </div>
       );
     },
   },
+  {
+    field: "hoten",
+    headerName: "Họ và tên",
+    width: 230,
+  },
+
   {
     field: "email",
     headerName: "Email",
@@ -20,13 +27,13 @@ export const userColumns = [
   },
 
   {
-    field: "age",
-    headerName: "Age",
+    field: "ngaysinh",
+    headerName: "Tuổi",
     width: 100,
   },
   {
     field: "status",
-    headerName: "Status",
+    headerName: "Trạng thái",
     width: 160,
     renderCell: (params) => {
       return (
