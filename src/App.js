@@ -3,6 +3,8 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import ListBill from "./pages/list/ListBill";
 import ListCategory from "./pages/list/ListCategory";
+import StatisticList from "./pages/list/statisticList";
+
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { categoryInputs, productInputs, userInputs } from "./formSource";
@@ -111,6 +113,15 @@ function App() {
               }
             />
           </Route>
+          <Route
+              path="statistic"
+              index
+              element={
+                <RequireAuth>
+                  <StatisticList />
+                </RequireAuth>
+              }
+            />
         </Routes>
       </BrowserRouter>
     </div>
