@@ -2,6 +2,7 @@ import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CategoryIcon from "@mui/icons-material/Category";
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 
@@ -52,6 +53,12 @@ const Sidebar = () => {
             <li>
               <CategoryIcon className="icon" />
               <span>Categories</span>
+            </li>
+          </Link>
+          <Link to="/statistic" style={{ textDecoration: "none" }}>
+            <li>
+              <StackedLineChartIcon className="icon" />
+              <span>Thống kê</span>
             </li>
           </Link>
           {/* <p className="title">USER</p>

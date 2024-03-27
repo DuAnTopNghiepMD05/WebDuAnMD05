@@ -108,6 +108,57 @@ export const categoriesRows = [
     width: 160,
   },
 ];
+const currencyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'VND',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+export const statisticRows = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100, 
+  },
+  {
+    field: "ngay",
+    headerName: "Ngày",
+    width: 200, 
+  },
+  {
+    field: "loaisp",
+    headerName: "Loại sản phẩm",
+    width: 200,
+  },
+  {
+    field: "tensp",
+    headerName: "Tên sản phẩm",
+    width: 160,
+  },
+  {
+    field: "soluong",
+    headerName: "Số lượng",
+    width: 160,
+  },
+  {
+    field: "giamgia",
+    headerName: "Giảm giá",
+    width: 160,
+  },
+  {
+    field: "doanhthu",
+    headerName: "Doanh thu",
+    width: 160,
+    groupable: false,
+    type: "number",
+    valueFormatter: (value) => {
+      if (!value) {
+        return value;
+      }
+      return currencyFormatter.format(value);
+    },
+  }
+];
 //temporary data
 export const userRows = [
   {
