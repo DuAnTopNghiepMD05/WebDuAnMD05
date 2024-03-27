@@ -12,9 +12,25 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+import { AuthContext } from "../../context/AuthContext";
 
 const Sidebar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+  const { dispatch } = useContext(AuthContext);
+  const { dispatch1 } = useContext(DarkModeContext);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        dispatch({ type: "LOGOUT", payload: null });
+        console.log("Logged out");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error("Error logging out:", error);
+      });
+  };
   return (
     <div className="sidebar">
       <div className="top">
@@ -66,8 +82,9 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li> */}
-          <li>
+          <li onClick={handleLogout}>
             <ExitToAppIcon className="icon" />
+
             <span>Logout</span>
           </li>
         </ul>
@@ -75,11 +92,11 @@ const Sidebar = () => {
       <div className="bottom">
         <div
           className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
+          onClick={() => dispatch1({ type: "LIGHT" })}
         ></div>
         <div
           className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
+          onClick={() => dispatch1({ type: "DARK" })}
         ></div>
       </div>
     </div>

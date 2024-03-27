@@ -1,3 +1,47 @@
+export const productInputs = [
+  {
+    id: "tensp",
+    label: "Tên sản phẩm",
+    type: "text",
+  },
+  {
+    id: "mota",
+    label: "Mô tả",
+    type: "text",
+  },
+  {
+    id: "loaisp",
+    label: "Loại sản phẩm",
+    type: "select",
+  },
+  {
+    id: "giatien",
+    label: "Giá",
+    type: "number",
+  },
+  {
+    id: "soluong",
+    label: "Số lượng",
+    type: "number",
+  },
+  {
+    id: "kichco",
+    label: "Kích cỡ",
+    type: "text",
+  },
+  {
+    id: "mausac",
+    label: "Màu sắc",
+    type: "text",
+  },
+  {
+    id: "type",
+    label: "Định dạng",
+    placeholder: "Min 1, Max 4",
+    type: "number",
+  },
+];
+
 export const userInputs = [
   {
     id: 1,
@@ -42,49 +86,6 @@ export const userInputs = [
   },
 ];
 
-export const productInputs = [
-  {
-    id: "tensp",
-    label: "Tên sản phẩm",
-    type: "text",
-  },
-  {
-    id: "mota",
-    label: "Mô tả",
-    type: "text",
-  },
-  {
-    id: "loaisp",
-    label: "Loại sản phẩm",
-    type: "text",
-  },
-  {
-    id: "giatien",
-    label: "Giá",
-    type: "number",
-  },
-  {
-    id: "soluong",
-    label: "Số lượng",
-    type: "number",
-  },
-  {
-    id: "kichco",
-    label: "Kích cỡ",
-    type: "text",
-  },
-  {
-    id: "mausac",
-    label: "Màu sắc",
-    type: "text",
-  },
-  {
-    id: "type",
-    label: "Định dạng",
-    placeholder: "Min 1, Max 4",
-    type: "number",
-  },
-];
 export const categoryInputs = [
   {
     id: "tenloai", //key khi map qua từng input

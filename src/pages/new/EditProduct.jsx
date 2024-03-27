@@ -2,14 +2,65 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../../firebase";
-const UpdateProduct = ({ inputs, title }) => {
+const UpdateProduct = ({ title }) => {
   const [updatedData, setUpdatedData] = useState("");
   const { productId } = useParams();
   const navigate = useNavigate();
+  const [theloai, setTheloai] = useState([]);
+  const productInputs = [
+    {
+      id: "tensp",
+      label: "Tên sản phẩm",
+      type: "text",
+    },
+    {
+      id: "mota",
+      label: "Mô tả",
+      type: "text",
+    },
+
+    {
+      id: "giatien",
+      label: "Giá",
+      type: "number",
+    },
+    {
+      id: "soluong",
+      label: "Số lượng",
+      type: "number",
+    },
+    {
+      id: "kichco",
+      label: "Kích cỡ",
+      type: "text",
+    },
+    {
+      id: "mausac",
+      label: "Màu sắc",
+      type: "text",
+    },
+    {
+      id: "type",
+      label: "Định dạng",
+      placeholder: "Min 1, Max 4",
+      type: "number",
+    },
+    {
+      id: "loaisp",
+      label: "Loại sản phẩm",
+      type: "select",
+    },
+  ];
   useEffect(() => {
     const getProductById = async () => {
       try {
@@ -26,6 +77,14 @@ const UpdateProduct = ({ inputs, title }) => {
       }
     };
     getProductById();
+    const fetchTheloai = async () => {
+      const theloaiCollection = collection(db, "LoaiSP");
+      const theloaiSnapshot = await getDocs(theloaiCollection);
+      const theloaiList = theloaiSnapshot.docs.map((doc) => doc.data());
+      setTheloai(theloaiList);
+      console.log("Thể loại", theloaiList);
+    };
+    fetchTheloai();
   }, []);
   const handleInput = (event) => {
     let value = event.target.value;
@@ -65,7 +124,6 @@ const UpdateProduct = ({ inputs, title }) => {
         <Navbar />
         <div className="top">
           <h1>{title}</h1>
-          <div className="button"></div>
         </div>
         <div className="bottom">
           <div className="left">
@@ -84,18 +142,40 @@ const UpdateProduct = ({ inputs, title }) => {
                 <input type="file" id="file" style={{ display: "none" }} />
               </div>
 
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    name={input.id}
-                    placeholder={input.placeholder}
-                    value={updatedData[input.id] || ""} // Lấy giá trị của input từ state
-                    onChange={handleInput}
-                  />
-                </div>
-              ))}
+              {productInputs.map(
+                (
+                  input,
+                  index // Hiển thị các input
+                ) =>
+                  input.type === "select" ? (
+                    <div className="formInput" key={index}>
+                      <label htmlFor={input.id}>{input.label}</label>
+                      <select
+                        name={input.id}
+                        id={input.id}
+                        onChange={handleInput}
+                        value={updatedData[input.id]}
+                      >
+                        {theloai.map((item, index) => (
+                          <option key={index} value={item.id}>
+                            {item.tenloai}
+                          </option> // Hiển thị danh sách thể loại
+                        ))}
+                      </select>
+                    </div>
+                  ) : (
+                    <div className="formInput" key={index}>
+                      <label htmlFor={input.id}>{input.label}</label>
+                      <input
+                        type={input.type}
+                        id={input.id}
+                        name={input.id}
+                        onChange={handleInput}
+                        value={updatedData[input.id]} // Hiển thị các input còn lại
+                      />
+                    </div>
+                  )
+              )}
               <button type="submit">Update</button>
             </form>
           </div>

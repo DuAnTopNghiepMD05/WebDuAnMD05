@@ -5,11 +5,9 @@ import ListBill from "./pages/list/ListBill";
 import ListCategory from "./pages/list/ListCategory";
 import StatisticList from "./pages/list/statisticList";
 
-
 import New from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { userInputs } from "./formSource";
-import { categoryInputs, productInputs } from "./formSource";
+import { categoryInputs, productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -18,14 +16,15 @@ import UpdateProduct from "./pages/new/EditProduct";
 import UpdateUser from "./pages/single/EditUser";
 import NewCategory from "./pages/new/NewCategory";
 import EditCategory from "./pages/new/EditCategory";
+import { AuthContext } from "./context/AuthContext";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
-
-  const currentUser = true;
+  const { currentUser } = useContext(AuthContext);
 
   const RequireAuth = ({ children }) => {
     return currentUser ? children : <Navigate to="/login" />;
   };
+  console.log(currentUser);
   return (
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
@@ -57,7 +56,6 @@ function App() {
                   </RequireAuth>
                 }
               />
-
               {/* <Route
                 path="new"
                 element={<New inputs={userInputs} title="Add New User" />}
@@ -76,17 +74,11 @@ function App() {
                 path="/products/:productId"
                 element={
                   <RequireAuth>
-                    <UpdateProduct
-                      inputs={productInputs}
-                      title="Edit Product"
-                    />
+                    <UpdateProduct title="Edit Product" />
                   </RequireAuth>
                 }
               />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
+              <Route path="new" element={<New title="Add New Product" />} />
             </Route>
             <Route
               path="orders"
